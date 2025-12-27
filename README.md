@@ -1,4 +1,4 @@
-# Anime Tracker App (MyAnimeList-style)
+# Anime Tracker App
 
 A personal Flutter project inspired by MyAnimeList.
 Built for learning purposes and gradual feature development.
