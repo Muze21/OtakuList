@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../presentation/auth/login/login_page.dart';
+import '../../presentation/auth/register/register_page.dart';
 import '../../presentation/home/home_page.dart';
+import '../../presentation/anime/list/anime_list_page.dart';
+import '../../presentation/anime/detail/anime_detail_page.dart';
 import '../providers.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -33,9 +36,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/register',
-        builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Register Page - Coming Soon')),
-        ),
+        builder: (context, state) => const RegisterPage(),
       ),
       GoRoute(
         path: '/home',
