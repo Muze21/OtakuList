@@ -36,14 +36,14 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   // TODO: Replace with real Supabase data
-  UserProfile _getDummyUser() {
-    return UserProfile(
-      id: 1,
+  UserProfileModel _getDummyUser() {
+    return UserProfileModel(
+      id: 'user_1',
       username: 'otaku_master',
       email: 'user@example.com',
       avatarUrl: null,
       createdAt: DateTime(2023, 6, 15),
-      role: 'user',
+      isAdmin: false,
       isBanned: false,
     );
   }
@@ -393,7 +393,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
 
                       // Role Badge (if admin)
-                      if (user.role == 'admin') ...[
+                      if (user.isAdmin) ...[
                         const SizedBox(height: 12),
                         Container(
                           padding: const EdgeInsets.symmetric(

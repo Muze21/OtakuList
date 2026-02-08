@@ -142,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                   label: 'Password',
                   hintText: 'Enter your password',
                   controller: _passwordController,
-                  isPassword: true,
+                  obscureText: true,
                   prefixIcon: const Icon(
                     Icons.lock_outline,
                     color: AppColors.textHint,

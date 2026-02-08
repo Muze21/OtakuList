@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/constants/app_colors.dart';
 import 'package:flutter_application_1/core/constants/app_text_styles.dart';
 import 'package:flutter_application_1/features/anime/data/models/season_model.dart';
+import 'package:flutter_application_1/features/anime/presentation/widgets/anime_form_modal.dart' as animeFormModal;
+import 'dart:io';
 
 class SeasonalAnimeCard extends StatelessWidget {
   final AnimeCard anime;
@@ -41,6 +43,18 @@ class SeasonalAnimeCard extends StatelessWidget {
     }
   }
 
+  ImageProvider<Object>? _buildImageProvider(String? imagePath) {
+    if (imagePath == null || imagePath.isEmpty) return null;
+    if (imagePath.startsWith('web_image:')) {
+      final filename = imagePath.replaceFirst('web_image:', '');
+      if (animeFormModal.webImageCache.containsKey(filename)) return MemoryImage(animeFormModal.webImageCache[filename]!);
+      return null;
+    }
+    if (imagePath.startsWith('http')) return NetworkImage(imagePath);
+    if (imagePath.startsWith('assets/')) return AssetImage(imagePath);
+    return FileImage(File(imagePath));
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -68,14 +82,14 @@ class SeasonalAnimeCard extends StatelessWidget {
                       topRight: Radius.circular(12),
                     ),
                     color: AppColors.surfaceLight,
-                    image: anime.coverImageUrl != null
+                    image: _buildImageProvider(anime.coverImageUrl) != null
                         ? DecorationImage(
-                            image: NetworkImage(anime.coverImageUrl!),
+                            image: _buildImageProvider(anime.coverImageUrl)!,
                             fit: BoxFit.cover,
                           )
                         : null,
                   ),
-                  child: anime.coverImageUrl == null
+                  child: _buildImageProvider(anime.coverImageUrl) == null
                       ? Center(
                           child: Icon(
                             Icons.movie_filter_rounded,

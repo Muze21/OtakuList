@@ -1,30 +1,30 @@
-class UserProfile {
-  final int id;
+class UserProfileModel {
+  final String id;
   final String username;
   final String email;
   final String? avatarUrl;
   final DateTime createdAt;
-  final String role; // 'user' or 'admin'
+  final bool isAdmin; // Changed from role to isAdmin boolean
   final bool isBanned;
 
-  UserProfile({
+  UserProfileModel({
     required this.id,
     required this.username,
     required this.email,
     this.avatarUrl,
     required this.createdAt,
-    required this.role,
+    required this.isAdmin,
     required this.isBanned,
   });
 
-  factory UserProfile.fromJson(Map<String, dynamic> json) {
-    return UserProfile(
-      id: json['id'],
+  factory UserProfileModel.fromJson(Map<String, dynamic> json) {
+    return UserProfileModel(
+      id: json['id'] as String,
       username: json['username'],
       email: json['email'],
       avatarUrl: json['avatar_url'],
       createdAt: DateTime.parse(json['created_at']),
-      role: json['role'] ?? 'user',
+      isAdmin: json['is_admin'] ?? false, // Map from is_admin column
       isBanned: json['is_banned'] ?? false,
     );
   }
@@ -36,10 +36,12 @@ class UserProfile {
       'email': email,
       'avatar_url': avatarUrl,
       'created_at': createdAt.toIso8601String(),
-      'role': role,
+      'is_admin': isAdmin, // Map to is_admin column
       'is_banned': isBanned,
     };
   }
+
+  bool get isAdminUser => isAdmin; // Keep getter for backward compatibility
 
   String get joinDate {
     final months = [

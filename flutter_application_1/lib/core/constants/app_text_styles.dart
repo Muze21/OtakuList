@@ -1,65 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
 class AppTextStyles {
-  // Headings
-  static TextStyle h1 = GoogleFonts.poppins(
-    fontSize: 32,
-    fontWeight: FontWeight.bold,
-    color: AppColors.textPrimary,
-    height: 1.2,
-  );
+  // Heading Styles
+  static TextStyle get h1 => const TextStyle(
+        fontSize: 32,
+        fontWeight: FontWeight.bold,
+        color: AppColors.textPrimary,
+      );
 
-  static TextStyle h2 = GoogleFonts.poppins(
-    fontSize: 24,
-    fontWeight: FontWeight.bold,
-    color: AppColors.textPrimary,
-    height: 1.3,
-  );
+  static TextStyle get h2 => const TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        color: AppColors.textPrimary,
+      );
 
-  static TextStyle h3 = GoogleFonts.poppins(
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    color: AppColors.textPrimary,
-    height: 1.4,
-  );
+  static TextStyle get h3 => const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        color: AppColors.textPrimary,
+      );
 
-  // Body
-  static TextStyle bodyLarge = GoogleFonts.inter(
-    fontSize: 16,
-    fontWeight: FontWeight.normal,
-    color: AppColors.textPrimary,
-    height: 1.5,
-  );
+  // Backwards-compatible headline aliases used in UI
+  static TextStyle get headlineLarge => h1;
+  static TextStyle get headlineMedium => h2;
+  static TextStyle get headlineSmall => h3;
 
-  static TextStyle bodyMedium = GoogleFonts.inter(
-    fontSize: 14,
-    fontWeight: FontWeight.normal,
-    color: AppColors.textPrimary,
-    height: 1.5,
-  );
+  // Body Styles
+  static TextStyle get bodyLarge => const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+        color: AppColors.textPrimary,
+      );
 
-  static TextStyle bodySmall = GoogleFonts.inter(
-    fontSize: 12,
-    fontWeight: FontWeight.normal,
-    color: AppColors.textSecondary,
-    height: 1.4,
-  );
+  static TextStyle get bodyMedium => const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.normal,
+        color: AppColors.textPrimary,
+      );
 
-  // Button
-  static TextStyle button = GoogleFonts.inter(
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
-    color: AppColors.textPrimary,
-    letterSpacing: 0.5,
-  );
+  static TextStyle get bodySmall => const TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.normal,
+        color: AppColors.textSecondary,
+      );
 
-  // Caption
-  static TextStyle caption = GoogleFonts.inter(
-    fontSize: 12,
-    fontWeight: FontWeight.normal,
-    color: AppColors.textHint,
-    height: 1.3,
-  );
+  // Button Style
+  static TextStyle get button => const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: Colors.white,
+      );
+
+  // Caption Style
+  static TextStyle get caption => const TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.normal,
+        color: AppColors.textSecondary,
+      );
 }

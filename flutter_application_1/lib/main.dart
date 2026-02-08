@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_application_1/core/theme/app_theme.dart';
-import 'package:flutter_application_1/features/auth/presentation/pages/profile_page.dart';
-//import 'package:flutter_application_1/features/anime/presentation/pages/seasonal_anime_page.dart';
-void main() {
+import 'package:flutter_application_1/core/network/supabase_client.dart';
+import 'package:flutter_application_1/features/auth/presentation/pages/login_page_responsive.dart';
+import 'package:flutter_application_1/features/auth/presentation/pages/register_page_responsive.dart';
+import 'package:flutter_application_1/features/common/pages/home_page.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Supabase
+  await SupabaseClientService.instance.initialize();
   
   runApp(
     const ProviderScope(
@@ -13,18 +20,37 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Anime Tracker',
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appRouter = GoRouter(
+      initialLocation: '/',
+      routes: [
+        GoRoute(
+          path: '/',
+          name: 'home',
+          builder: (context, state) => const HomePage(),
+        ),
+        GoRoute(
+          path: '/login',
+          name: 'login',
+          builder: (context, state) => const LoginPageResponsive(),
+        ),
+        GoRoute(
+          path: '/register',
+          name: 'register',
+          builder: (context, state) => const RegisterPageResponsive(),
+        ),
+      ],
+    );
+
+    return MaterialApp.router(
+      title: 'MyAnimeList',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      // home: const SeasonalAnimePage(), // Test Dashboard
-      // home: const LoginPageResponsive(),  Uncomment for login
-      home: const ProfilePage(),
+      routerConfig: appRouter,
     );
   }
 }

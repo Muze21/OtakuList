@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/constants/app_colors.dart';
 import 'package:flutter_application_1/core/constants/app_text_styles.dart';
 import 'package:flutter_application_1/features/anime/data/models/anime_model.dart';
+import 'package:flutter_application_1/features/anime/presentation/widgets/anime_form_modal.dart' as animeFormModal;
+import 'dart:io';
 
 class AnimeCard extends StatelessWidget {
   final UserAnimeList userAnime;
@@ -45,6 +47,10 @@ class AnimeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get cover image URL from entity (returns Supabase URL, web cache ref, or local path)
+    final imageUrl = userAnime.anime.coverImageUrl;
+    final imageProvider = _buildImageProvider(imageUrl);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -70,14 +76,14 @@ class AnimeCard extends StatelessWidget {
                       topRight: Radius.circular(16),
                     ),
                     color: AppColors.surfaceLight,
-                    image: userAnime.anime.coverImageUrl != null
+                    image: imageProvider != null
                         ? DecorationImage(
-                            image: NetworkImage(userAnime.anime.coverImageUrl!),
+                            image: imageProvider,
                             fit: BoxFit.cover,
                           )
                         : null,
                   ),
-                  child: userAnime.anime.coverImageUrl == null
+                  child: imageProvider == null
                       ? Center(
                           child: Icon(
                             Icons.movie_filter_rounded,
@@ -243,5 +249,22 @@ class AnimeCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// Build ImageProvider safely (handles web cache refs, http URLs, assets, and local files)
+  ImageProvider<Object>? _buildImageProvider(String? imagePath) {
+    if (imagePath == null || imagePath.isEmpty) return null;
+    // web cached image reference (from admin form modal)
+    if (imagePath.startsWith('web_image:')) {
+      final filename = imagePath.replaceFirst('web_image:', '');
+      try {
+        if (animeFormModal.webImageCache.containsKey(filename)) return MemoryImage(animeFormModal.webImageCache[filename]!);
+      } catch (_) {}
+      return null;
+    }
+    if (imagePath.startsWith('http')) return NetworkImage(imagePath);
+    if (imagePath.startsWith('assets/')) return AssetImage(imagePath);
+    // treat as local file
+    return FileImage(File(imagePath));
   }
 }
